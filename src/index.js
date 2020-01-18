@@ -2,8 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const routes = require('./routes');
+const http = require('http');
+const { setupWebSocket } = require('./websocket');
 
 const app = express();
+const server = http.Server(app);
+
+setupWebSocket(server);
 
 mongoose.connect('mongodb+srv://todesco:todesco@cluster0-ngrj0.mongodb.net/devradar?retryWrites=true&w=majority', {
     useNewUrlParser: true,
@@ -30,4 +35,4 @@ app.use(routes);
 //     return response.json({message: 'Hello Todesco'});
 // });
 
-app.listen(3333);
+server.listen(3333);
